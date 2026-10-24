@@ -1,0 +1,1150 @@
+<!DOCTYPE html>
+<html lang="th" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>คู่มือการรับโทรศัพท์ในแผนก FOOD AND BEVERAGE | โรงแรมอวานีขอนแก่น</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        avani: {
+                            50: '#faf7ff',
+                            100: '#f3e8ff',
+                            200: '#e9d5ff',
+                            300: '#d8b4fe',
+                            400: '#c084fc',
+                            500: '#a855f7',
+                            600: '#7c3aed',
+                            700: '#6d28d9',
+                            800: '#5b21b6',
+                            900: '#4c1d95',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { 
+            font-family: 'Prompt', sans-serif; 
+            background-color: #f3f4f6;
+            color: #374151;
+        }
+        /* ไฮไลต์คาราโอเกะ */
+        .karaoke-word {
+            transition: all 0.15s ease;
+            padding: 0.1rem 0.25rem;
+            border-radius: 0.35rem;
+            display: inline-block;
+        }
+        .karaoke-word.active {
+            color: #ffffff !important;
+            background-color: #6d28d9 !important;
+            font-weight: 600;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(109, 40, 217, 0.3);
+        }
+        /* แอนิเมชันตอนสลับหน้าเนื้อหา */
+        .fade-in {
+            animation: fadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-avani-700 selection:text-white flex flex-col min-h-screen">
+
+    <!-- แถบนำทางด้านบน (Sticky Navbar: โทนขาว - เทา - ม่วงเข้ม) -->
+    <nav class="fixed top-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-b border-gray-200 shadow-2xs">
+        <div class="max-w-6xl mx-auto px-4 sm:px-8 h-16 flex items-center justify-between">
+            <!-- โลโก้ / ชื่อเว็บ -->
+            <a href="#hero-cover" onclick="showHub(false)" class="flex items-center space-x-3 group">
+                <div class="w-9 h-9 rounded-xl bg-avani-900 flex items-center justify-center text-white font-bold text-sm shadow-xs group-hover:bg-avani-700 transition">
+                    AV
+                </div>
+                <div>
+                    <span class="font-bold text-avani-900 text-sm sm:text-base tracking-tight block leading-none">AVANI KHON KAEN</span>
+                    <span class="text-[10px] text-gray-500 font-semibold tracking-widest uppercase block mt-0.5">F&B Telephone Guide</span>
+                </div>
+            </a>
+
+            <!-- ปุ่มควบคุมด้านขวา (กลับหน้าแรก + เลือกภาษา + เมนู 3 ขีด) -->
+            <div class="flex items-center space-x-2">
+                <button onclick="showHub(true)" id="nav-hub-btn" class="hidden px-3.5 py-2 rounded-xl bg-avani-100 hover:bg-avani-200 text-avani-900 font-semibold text-xs transition cursor-pointer items-center space-x-1.5">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+                    <span id="nav-hub-txt">หน้าแรก</span>
+                </button>
+                <button onclick="toggleLanguage()" id="lang-btn" class="px-3.5 py-2 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold text-xs border border-gray-300 transition cursor-pointer">
+                    EN / TH
+                </button>
+                <button onclick="toggleDrawer()" class="px-3.5 py-2 rounded-xl bg-avani-900 hover:bg-avani-800 text-white transition shadow-xs cursor-pointer flex items-center space-x-2" aria-label="Menu">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                    <span class="text-xs font-semibold" id="nav-menu-txt">เมนูหัวข้อ</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- เมนูแถบข้าง (Slide-out Drawer เมื่อกดปุ่ม 3 ขีด) -->
+    <div id="drawer-backdrop" onclick="toggleDrawer()" class="fixed inset-0 bg-gray-900/40 backdrop-blur-xs z-50 hidden opacity-0 transition-opacity duration-300"></div>
+    <aside id="drawer-menu" class="fixed top-0 right-0 bottom-0 w-80 max-w-[85vw] bg-white z-50 shadow-2xl transform translate-x-full transition-transform duration-300 flex flex-col justify-between border-l border-gray-200">
+        <div>
+            <div class="p-6 bg-avani-900 text-white flex items-center justify-between border-b border-avani-800">
+                <div>
+                    <p class="text-[10px] uppercase tracking-widest text-avani-200 font-semibold">Navigation Menu</p>
+                    <h3 class="font-bold text-base mt-0.5" id="drawer-title">เลือกหัวข้อคู่มือ</h3>
+                </div>
+                <button onclick="toggleDrawer()" class="p-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-white transition cursor-pointer">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            <div class="p-4 space-y-1.5 overflow-y-auto max-h-[calc(100vh-140px)]" id="drawer-links">
+                <!-- ลิงก์จะถูกสร้างจาก JS (ไม่มีตัวเลขข้างหน้า) -->
+            </div>
+        </div>
+        <div class="p-4 border-t border-gray-200 bg-gray-50 text-center">
+            <p class="text-[11px] text-gray-500 font-medium">Avani Khon Kaen Hotel & Convention Centre</p>
+        </div>
+    </aside>
+
+    <!-- 1. หน้าปก (Hero Cover Section) -->
+    <section id="hero-cover" class="relative min-h-[88vh] flex items-center justify-center pt-16 overflow-hidden">
+        <div class="absolute inset-0 bg-cover bg-center" 
+             style="background-image: url('https://images.trvl-media.com/lodging/5000000/4910000/4902700/4902657/5af45c44.jpg?impolicy=resizecrop&rw=1600&rh=1000&ra=fill');">
+        </div>
+        <!-- เลเยอร์ไล่สี เทาเข้มอมม่วงเข้ม -->
+        <div class="absolute inset-0 bg-gradient-to-b from-avani-900/80 via-gray-800/75 to-avani-900/90"></div>
+
+        <div class="relative z-10 max-w-4xl mx-auto px-6 py-16 text-center text-white space-y-6">
+            <div class="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full bg-white/15 border border-white/25 backdrop-blur-md text-avani-100 text-xs font-medium tracking-wider">
+                <span>AVANI KHON KAEN HOTEL & CONVENTION CENTRE</span>
+            </div>
+            
+            <h1 id="cover-title" class="text-3xl sm:text-5xl md:text-6xl font-bold tracking-tight leading-tight drop-shadow-sm">
+                คู่มือการรับโทรศัพท์ในแผนก<br>
+                <span class="text-avani-200">FOOD AND BEVERAGE</span><br>
+                โรงแรมอวานีขอนแก่น
+            </h1>
+
+            <p id="cover-sub" class="text-gray-200 text-sm sm:text-base max-w-2xl mx-auto font-light leading-relaxed">
+                เน้นประโยคสั้น กระชับ ได้ใจความรวดเร็ว สุภาพถูกต้องตามมาตรฐานโรงแรม พร้อมระบบฝึกออกเสียง
+            </p>
+
+            <div class="pt-4">
+                <a href="#workspace-anchor" onclick="showHub(false)" class="inline-flex items-center space-x-3 bg-white text-avani-900 hover:bg-avani-50 font-bold px-9 py-4 rounded-2xl shadow-xl transition transform hover:-translate-y-0.5 text-sm sm:text-base cursor-pointer">
+                    <span id="cover-btn-txt">เข้าสู่เว็บไซต์</span>
+                    <svg class="w-5 h-5 text-avani-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- จุดอ้างอิงสำหรับการเลื่อนลงมาที่เนื้อหา -->
+    <div id="workspace-anchor" class="scroll-mt-16"></div>
+
+    <!-- พื้นที่ทำงานหลัก -->
+    <main class="flex-1 max-w-6xl w-full mx-auto px-4 sm:px-8 py-12">
+
+        <!-- ========================================== -->
+        <!-- โหมดที่ 1: หน้าหลัก (โชว์เฉพาะโทรศัพท์ 2 แบบ และปุ่มเปิดเมนูหัวข้อ) -->
+        <!-- ========================================== -->
+        <div id="hub-view" class="space-y-8 fade-in">
+            
+            <div class="bg-white rounded-3xl border border-gray-200 shadow-xs overflow-hidden">
+                <!-- แถบหัวข้อของส่วนอุปกรณ์: โทนม่วงเข้ม - เทาอ่อน -->
+                <div class="bg-avani-900 text-white px-6 sm:px-10 py-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-avani-800">
+                    <div>
+                        <span class="text-[11px] font-bold uppercase tracking-widest text-avani-200">Office Equipment</span>
+                        <h2 class="text-xl sm:text-2xl font-bold mt-0.5" id="eq-title">ประเภทโทรศัพท์สำนักงาน (Office Telephone Types)</h2>
+                    </div>
+                    <button onclick="toggleDrawer()" class="inline-flex items-center space-x-2 text-xs font-semibold text-avani-900 bg-avani-100 hover:bg-white px-4 py-2.5 rounded-xl transition cursor-pointer self-start sm:self-auto shadow-xs">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                        <span id="eq-menu-btn">เปิดเมนูเลือกหัวข้อบทเรียน</span>
+                    </button>
+                </div>
+
+                <!-- การ์ดโทรศัพท์ 2 แบบ -->
+                <div class="p-6 sm:p-10 grid grid-cols-1 md:grid-cols-2 gap-8" id="eq-cards-container">
+                    <!-- จะถูก Render ด้วย JS -->
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ========================================== -->
+        <!-- โหมดที่ 2: หน้าแสดงเนื้อหาเจาะลึก (แสดงเมื่อเลือกหัวข้อจากเมนู 3 ขีด) -->
+        <!-- ========================================== -->
+        <div id="detail-view" class="hidden space-y-6 fade-in">
+            
+            <!-- แถบควบคุมด้านบนของหน้าเนื้อหา -->
+            <div class="bg-white rounded-2xl p-4 sm:px-6 border border-gray-200 shadow-xs flex flex-wrap items-center justify-between gap-4 sticky top-20 z-30">
+                <div class="flex items-center space-x-2">
+                    <button onclick="showHub(true)" class="inline-flex items-center space-x-2 px-4 py-2 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold text-xs sm:text-sm transition cursor-pointer border border-gray-300">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                        <span id="btn-back-txt">หน้าแรก (ประเภทโทรศัพท์)</span>
+                    </button>
+                    <button onclick="toggleDrawer()" class="inline-flex items-center space-x-2 px-4 py-2 rounded-xl bg-avani-800 hover:bg-avani-900 text-white font-semibold text-xs sm:text-sm transition cursor-pointer">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                        <span id="btn-change-topic">เปลี่ยนหัวข้อ</span>
+                    </button>
+                </div>
+
+                <!-- แผงตั้งค่าเสียงพูด -->
+                <div class="flex flex-wrap items-center gap-3 text-xs bg-gray-100 px-3.5 py-2 rounded-xl border border-gray-200">
+                    <span class="font-bold text-avani-900" id="audio-lbl">ตั้งค่าเสียง:</span>
+                    <select id="global-gender" class="bg-white text-gray-800 border border-gray-300 rounded-lg px-2.5 py-1 text-xs font-semibold focus:outline-none">
+                        <option value="female" id="opt-female">เสียงผู้หญิง (Female)</option>
+                        <option value="male" id="opt-male">เสียงผู้ชาย (Male)</option>
+                    </select>
+                    <label class="flex items-center space-x-1.5 cursor-pointer select-none bg-white px-2.5 py-1 rounded-lg border border-gray-300 hover:border-avani-500 transition">
+                        <input type="checkbox" id="global-slow" class="rounded text-avani-700 focus:ring-0 w-3.5 h-3.5">
+                        <span class="text-gray-800 font-semibold" id="lbl-slow">พูดช้า (Slow)</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- กล่องแสดงเนื้อหาของหัวข้อที่เลือก -->
+            <div id="detail-content-box" class="bg-white rounded-3xl border border-gray-200 shadow-xs overflow-hidden">
+                <!-- เนื้อหาของหัวข้อที่ถูกเลือกจะมาแสดงที่นี่ -->
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- Footer (โทนเทาเข้ม - ม่วงเข้ม) -->
+    <footer class="bg-gray-800 text-gray-300 py-10 border-t-4 border-avani-700 mt-16">
+        <div class="max-w-5xl mx-auto px-6 text-center space-y-2">
+            <div class="font-bold text-white tracking-wider text-sm sm:text-base">AVANI KHON KAEN HOTEL & CONVENTION CENTRE</div>
+            <p class="text-xs text-gray-400 max-w-lg mx-auto font-light" id="footer-desc">
+                คู่มือมาตรฐานการรับโทรศัพท์และการสื่อสารภายในแผนกอาหารและเครื่องดื่ม (Food & Beverage Department)
+            </p>
+        </div>
+    </footer>
+
+    <!-- ระบบ JavaScript -->
+    <script>
+        let lang = 'TH';
+        let activeTopicId = null;
+
+        // สร้าง Span คาราโอเกะทีละคำ
+        function makeKaraokeHTML(engText, phonText) {
+            const engWords = engText.split(' ');
+            const phonWords = phonText.split(' ');
+            const engSpans = engWords.map((w, i) => `<span class="karaoke-word" data-idx="${i}">${w}</span>`).join(' ');
+            const phonSpans = phonWords.map((w, i) => `<span class="karaoke-word" data-idx="${i}">${w}</span>`).join(' ');
+            return { engSpans, phonSpans };
+        }
+
+        // ระบบเล่นเสียงพร้อมไฮไลต์คำแบบคาราโอเกะ
+        function speakKaraoke(cleanText, boxId) {
+            if (!('speechSynthesis' in window)) {
+                alert('เบราว์เซอร์ของคุณไม่รองรับระบบเสียงอ่าน');
+                return;
+            }
+            window.speechSynthesis.cancel();
+
+            const box = document.getElementById(boxId);
+            if (!box) return;
+
+            const engWords = box.querySelectorAll('.eng-line .karaoke-word');
+            const phonWords = box.querySelectorAll('.phon-line .karaoke-word');
+
+            document.querySelectorAll('.karaoke-word').forEach(el => el.classList.remove('active'));
+
+            const utter = new SpeechSynthesisUtterance(cleanText);
+            utter.lang = 'en-US';
+
+            const isSlow = document.getElementById('global-slow')?.checked;
+            utter.rate = isSlow ? 0.6 : 0.88;
+
+            const gender = document.getElementById('global-gender')?.value || 'female';
+            const voices = window.speechSynthesis.getVoices();
+            
+            let chosenVoice = voices.find(v => v.lang.includes('en') && (
+                gender === 'female' 
+                ? /female|zira|susan|samantha|victoria|google us english/i.test(v.name)
+                : /male|david|mark|alex|daniel|george/i.test(v.name)
+            ));
+            if (chosenVoice) utter.voice = chosenVoice;
+            utter.pitch = gender === 'female' ? 1.15 : 0.92;
+
+            let wordIdx = 0;
+            utter.onboundary = function(e) {
+                if (e.name === 'word') {
+                    engWords.forEach(el => el.classList.remove('active'));
+                    phonWords.forEach(el => el.classList.remove('active'));
+
+                    if (engWords[wordIdx]) engWords[wordIdx].classList.add('active');
+                    const phonIdx = Math.min(wordIdx, phonWords.length - 1);
+                    if (phonWords[phonIdx]) phonWords[phonIdx].classList.add('active');
+                    
+                    wordIdx++;
+                }
+            };
+
+            utter.onend = function() {
+                engWords.forEach(el => el.classList.remove('active'));
+                phonWords.forEach(el => el.classList.remove('active'));
+            };
+
+            window.speechSynthesis.speak(utter);
+        }
+
+        // เปิด-ปิดคำศัพท์ย่อยในประโยค
+        function toggleSubVocab(id) {
+            const el = document.getElementById(id);
+            if (el) el.classList.toggle('hidden');
+        }
+
+        // เปิด-ปิดเมนู 3 ขีด
+        function toggleDrawer() {
+            const drawer = document.getElementById('drawer-menu');
+            const backdrop = document.getElementById('drawer-backdrop');
+            const isOpen = !drawer.classList.contains('translate-x-full');
+
+            if (isOpen) {
+                drawer.classList.add('translate-x-full');
+                backdrop.classList.add('opacity-0');
+                setTimeout(() => backdrop.classList.add('hidden'), 300);
+            } else {
+                backdrop.classList.remove('hidden');
+                setTimeout(() => backdrop.classList.remove('opacity-0'), 10);
+                drawer.classList.remove('translate-x-full');
+            }
+        }
+
+        // สร้างการ์ดประโยคสนทนา
+        function createPhraseCard(id, titleTH, titleEN, keyFocus, thSentence, engSentence, phonSentence, transTH, vocabList) {
+            const title = lang === 'TH' ? titleTH : titleEN;
+            const { engSpans, phonSpans } = makeKaraokeHTML(engSentence, phonSentence);
+            const cleanEng = engSentence.replace(/"/g, '').replace(/\(.*?\)/g, '');
+            const btnListen = lang === 'TH' ? 'ฟังเสียง' : 'Listen';
+            const btnVocab = lang === 'TH' ? 'ดูคำศัพท์' : 'Vocabulary';
+
+            const vocabItemsHTML = vocabList.map(v => `
+                <div class="bg-white p-3.5 rounded-xl border border-gray-200">
+                    <div class="font-bold text-avani-800 text-xs">${v.word} <span class="text-gray-500 font-normal">(${v.pron})</span></div>
+                    <div class="text-gray-700 text-xs mt-1">${lang === 'TH' ? v.meanTH : v.meanEN}</div>
+                </div>
+            `).join('');
+
+            return `
+                <div id="box-${id}" class="bg-white rounded-2xl p-6 border border-gray-200 shadow-2xs space-y-4">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-gray-100 pb-4">
+                        <div class="space-y-1">
+                            <span class="inline-block text-[11px] font-bold text-avani-800 bg-avani-100 px-2.5 py-0.5 rounded-md">
+                                Key: ${keyFocus}
+                            </span>
+                            <h4 class="font-bold text-avani-900 text-base">${title}</h4>
+                        </div>
+                        <div class="flex items-center space-x-2 self-start sm:self-auto shrink-0">
+                            <button onclick="toggleSubVocab('subv-${id}')" class="px-3.5 py-2 rounded-xl bg-avani-50 hover:bg-avani-100 text-avani-800 border border-avani-200 text-xs font-bold transition flex items-center space-x-1 cursor-pointer">
+                                <span>${btnVocab}</span>
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </button>
+                            <button onclick="speakKaraoke('${cleanEng.replace(/'/g, "\\'")}', 'box-${id}')" class="px-4 py-2 rounded-xl bg-avani-700 hover:bg-avani-800 text-white text-xs font-bold transition flex items-center space-x-1.5 cursor-pointer shadow-xs">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 11.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                                <span>${btnListen}</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    ${thSentence ? `
+                    <div class="text-xs sm:text-sm text-gray-700 bg-gray-50 p-3.5 rounded-xl border border-gray-200">
+                        <span class="font-bold text-avani-800 mr-1">ภาษาไทย (สั้นกระชับ):</span> "${thSentence}"
+                    </div>` : ''}
+
+                    <!-- ประโยคภาษาอังกฤษ (ม่วงเข้ม) -->
+                    <div class="bg-avani-900 text-white p-5 rounded-xl space-y-1.5">
+                        <div class="text-[10px] font-bold text-avani-200 uppercase tracking-widest">Short & Polite English (Karaoke Highlight)</div>
+                        <div class="eng-line text-sm sm:text-lg font-semibold leading-relaxed">"${engSpans}"</div>
+                    </div>
+
+                    <!-- แยกกล่องคำอ่าน (ม่วงอ่อน) และ คำแปล (เทาอ่อน) -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <div class="bg-avani-100/60 p-4 rounded-xl border border-avani-200">
+                            <span class="text-[11px] font-bold text-avani-800 uppercase tracking-wider block mb-1">คำอ่านภาษาไทย (Phonetics)</span>
+                            <div class="phon-line text-xs sm:text-sm font-semibold text-avani-900 leading-relaxed">${phonSpans}</div>
+                        </div>
+                        <div class="bg-gray-100 p-4 rounded-xl border border-gray-200">
+                            <span class="text-[11px] font-bold text-gray-500 uppercase tracking-wider block mb-1">คำแปลภาษาไทย (Translation)</span>
+                            <div class="text-xs sm:text-sm font-medium text-gray-800 leading-relaxed">${transTH}</div>
+                        </div>
+                    </div>
+
+                    <!-- คำศัพท์ย่อยเมื่อกดปุ่ม ดูคำศัพท์ -->
+                    <div id="subv-${id}" class="hidden pt-1">
+                        <div class="bg-gray-50 p-4 rounded-xl border border-gray-200 space-y-3">
+                            <div class="text-xs font-bold text-avani-900">คำศัพท์สำคัญในประโยคนี้:</div>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+                                ${vocabItemsHTML}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // ข้อมูลของแต่ละหัวข้อ (ไม่มีตัวเลขข้างหน้า และตัดคำว่า "ทำเนียบ" ออก)
+        function getTopicsData() {
+            return [
+                {
+                    id: 'rules',
+                    tagTH: 'มาตรฐานพื้นฐาน',
+                    tagEN: 'Core Standards',
+                    titleTH: 'กฎเหล็กการรับสายโทรศัพท์',
+                    titleEN: 'The Golden Rules',
+                    descTH: 'หลักปฏิบัติที่สั้นกระชับ รวดเร็ว และแม่นยำสำหรับงานบริการ',
+                    descEN: 'Fast, accurate, and polite telephone standards.',
+                    renderContent: () => `
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="p-6 rounded-2xl bg-white border border-gray-200 space-y-2 shadow-2xs">
+                                <span class="text-xs font-bold text-avani-800 bg-avani-100 px-3 py-1 rounded-lg">Fast Pickup</span>
+                                <h4 class="font-bold text-avani-900 text-base pt-1">${lang === 'TH' ? 'รับสายภายใน 3 กริ๊ง (Within 3 Rings)' : 'Answer Within 3 Rings'}</h4>
+                                <p class="text-xs sm:text-sm text-gray-600 leading-relaxed">
+                                    ${lang === 'TH' ? 'ยกหูรับสายทันทีไม่เกิน 3 กริ๊ง เพื่อความรวดเร็วในชั่วโมงเร่งด่วน' : 'Pick up the phone within 3 rings for fast service.'}
+                                </p>
+                            </div>
+                            <div class="p-6 rounded-2xl bg-white border border-gray-200 space-y-2 shadow-2xs">
+                                <span class="text-xs font-bold text-avani-800 bg-avani-100 px-3 py-1 rounded-lg">Warm Tone</span>
+                                <h4 class="font-bold text-avani-900 text-base pt-1">${lang === 'TH' ? 'ยิ้มก่อนพูด น้ำเสียงสดใส (Smile & Tone)' : 'Smile Before Speaking'}</h4>
+                                <p class="text-xs sm:text-sm text-gray-600 leading-relaxed">
+                                    ${lang === 'TH' ? 'แม้จะยุ่งแค่ไหน ให้ยิ้มก่อนพูดเสมอ น้ำเสียงจะฟังดูสุภาพและไม่ห้วน' : 'Always smile to keep your voice polite even during busy hours.'}
+                                </p>
+                            </div>
+                            <div class="p-6 rounded-2xl bg-white border border-gray-200 space-y-2 shadow-2xs">
+                                <span class="text-xs font-bold text-avani-800 bg-avani-100 px-3 py-1 rounded-lg">Take Notes</span>
+                                <h4 class="font-bold text-avani-900 text-base pt-1">${lang === 'TH' ? 'จดทันที ข้อมูลต้องเป๊ะ (Write It Down)' : 'Note Down Immediately'}</h4>
+                                <p class="text-xs sm:text-sm text-gray-600 leading-relaxed">
+                                    ${lang === 'TH' ? 'มีปากกาและกระดาษพร้อมจดทันที (ชื่อ, จำนวนคน, เวลา, เลขห้อง) ไม่ต้องถามซ้ำหลายรอบ' : 'Keep pen and pad ready to note guest info accurately on the first try.'}
+                                </p>
+                            </div>
+                            <div class="p-6 rounded-2xl bg-white border border-gray-200 space-y-2 shadow-2xs">
+                                <span class="text-xs font-bold text-avani-800 bg-avani-100 px-3 py-1 rounded-lg">Short & Polite</span>
+                                <h4 class="font-bold text-avani-900 text-base pt-1">${lang === 'TH' ? 'สั้น กระชับ ลงท้ายด้วย Please' : 'Short, Clear & Polite'}</h4>
+                                <p class="text-xs sm:text-sm text-gray-600 leading-relaxed">
+                                    ${lang === 'TH' ? 'ใช้ประโยคสั้นๆ ได้ใจความ และเติมคำว่า Please ทุกครั้งเพื่อความสุภาพระดับโรงแรม' : 'Use short phrases and always add "Please" to stay courteous.'}
+                                </p>
+                            </div>
+                        </div>
+                    `
+                },
+                {
+                    id: 'greeting',
+                    tagTH: 'การเปิดบทสนทนา',
+                    tagEN: 'Greeting Styles',
+                    titleTH: 'ประโยคทักทายมาตรฐาน',
+                    titleEN: 'Standard Greeting',
+                    descTH: 'รวมประโยคทักทายตอนรับสาย เลือกใช้ได้ตามความเหมาะสมและจังหวะความเร่งรีบของหน้างาน',
+                    descEN: 'Standard greeting options ranging from full standard to quick pickup.',
+                    renderContent: () => `
+                        <div class="space-y-6">
+                            <!-- โครงสร้างประโยค (Template) -->
+                            <div class="bg-avani-900 text-white p-6 rounded-2xl space-y-3 border-l-4 border-avani-400">
+                                <div class="text-xs font-bold uppercase tracking-wider text-avani-200">
+                                    ${lang === 'TH' ? 'โครงสร้างการรับสาย: [ทักทายตามเวลา] + [ชื่อ Outlet] + [ชื่อพนักงาน speaking] + [คำถามช่วยเหลือ]' : 'Greeting Formula: [Time Greeting] + [Outlet] + [Name speaking] + [Offer Help]'}
+                                </div>
+                                <div class="bg-white/10 p-4 rounded-xl space-y-1.5 text-xs sm:text-sm">
+                                    <p><strong class="text-avani-200">รูปแบบเว้นว่าง:</strong> "สวัสดีค่ะ/ครับ <span class="underline font-semibold">[ชื่อห้องอาหาร/Outlet]</span> <span class="underline font-semibold">[ชื่อพนักงาน]</span> ยินดีให้บริการค่ะ/ครับ มีอะไรให้ช่วยเหลือไหมคะ/ครับ"</p>
+                                </div>
+                            </div>
+
+                            ${createPhraseCard(
+                                'greet-1',
+                                'ตัวอย่าง: ประโยคทักทายมาตรฐานหลัก (Full Standard Greeting)',
+                                'Full Standard Greeting',
+                                'Greeting + Outlet + Name + Assist',
+                                'สวัสดีค่ะ ห้องอาหารเดอะโกลบ ชบายินดีให้บริการค่ะ มีอะไรให้เราช่วยเหลือไหมคะ',
+                                'Good morning, The Globe Restaurant. Chaba speaking, how may I assist you today?',
+                                'กุด มอร์-นิ่ง, เดอะ โกลบ เรส-ทัว-รองท์. ชบา สปีค-คิ่ง, ฮาว เมย์ ไอ แอส-ซิส ยู ทู-เดย์?',
+                                'สวัสดีตอนเช้าค่ะ ห้องอาหารเดอะโกลบ ชบากำลังพูดสายค่ะ วันนี้มีอะไรให้ช่วยเหลือไหมคะ?',
+                                [
+                                    { word: 'Restaurant', pron: 'เรส-ทัว-รองท์', meanTH: 'ห้องอาหาร', meanEN: 'Dining establishment' },
+                                    { word: 'Speaking', pron: 'สปีค-คิ่ง', meanTH: 'กำลังพูดสายอยู่', meanEN: 'Talking on the phone' },
+                                    { word: 'Assist', pron: 'แอส-ซิส', meanTH: 'ช่วยเหลือ, บริการ', meanEN: 'To help politely' }
+                                ]
+                            )}
+
+                            ${createPhraseCard(
+                                'greet-2',
+                                'ตัวอย่าง: ประโยคทักทายแบบสั้นกระชับ (ใช้ช่วงชั่วโมงเร่งด่วน)',
+                                'Short & Quick Greeting (Busy Hours)',
+                                'Greeting + Outlet + Name + Help',
+                                'สวัสดีค่ะ ห้องอาหารจูฟาง ชบาพูดสายค่ะ มีอะไรให้ช่วยไหมคะ',
+                                'Good afternoon, Jufang. Chaba speaking, how may I help you?',
+                                'กุด อาฟ-เทอร์-นูน, จู-ฟาง. ชบา สปีค-คิ่ง, ฮาว เมย์ ไอ เฮลพ์ ยู?',
+                                'สวัสดีตอนบ่ายค่ะ ห้องอาหารจูฟาง ชบาพูดสายค่ะ มีอะไรให้ช่วยไหมคะ?',
+                                [
+                                    { word: 'Good afternoon', pron: 'กุด อาฟ-เทอร์-นูน', meanTH: 'สวัสดีตอนบ่าย (หลังเที่ยงวัน)', meanEN: 'Afternoon greeting' },
+                                    { word: 'How may I help you', pron: 'ฮาว เมย์ ไอ เฮลพ์ ยู', meanTH: 'มีอะไรให้ช่วยไหมคะ (สั้นและสุภาพ)', meanEN: 'Polite and quick way to offer help' }
+                                ]
+                            )}
+
+                            ${createPhraseCard(
+                                'greet-3',
+                                'ตัวอย่าง: การรับสายภายในระหว่างแผนก (เน้นเร็วที่สุด)',
+                                'Fast Internal Call Pickup',
+                                'Greeting + Outlet + Name speaking',
+                                'สวัสดีค่ะ เค้กแอนด์มอร์ ชบาพูดสายค่ะ',
+                                'Good evening, Cake and More. Chaba speaking.',
+                                'กุด อีฟ-นิ่ง, เค้ก แอนด์ มอร์. ชบา สปีค-คิ่ง.',
+                                'สวัสดีตอนเย็นค่ะ ร้านเค้กแอนด์มอร์ ชบากำลังพูดสายค่ะ',
+                                [
+                                    { word: 'Good evening', pron: 'กุด อีฟ-นิ่ง', meanTH: 'สวัสดีตอนเย็น/ค่ำ (ตั้งแต่ 18.00 น.)', meanEN: 'Evening greeting' }
+                                ]
+                            )}
+                        </div>
+                    `
+                },
+                {
+                    id: 'inquiry',
+                    tagTH: 'สั้น กระชับ ได้ข้อมูลครบ',
+                    tagEN: 'Quick Reservation',
+                    titleTH: 'การจองโต๊ะและสอบถามข้อมูล',
+                    titleEN: 'Inquiry & Reservation',
+                    descTH: 'รวมประโยคคำถามสั้นๆ เติม Please เพื่อให้สุภาพและเก็บข้อมูลลูกค้าได้ไวที่สุด',
+                    descEN: 'Short, direct, and polite questions with "Please" for fast reservation taking.',
+                    renderContent: () => `
+                        <div class="space-y-6">
+                            ${createPhraseCard(
+                                'inq-1',
+                                'ถามจำนวนลูกค้าแบบสั้นกระชับ (Party Size)',
+                                'Asking Party Size (Short & Polite)',
+                                'How many persons, please?',
+                                'สำรองที่นั่งกี่ท่านคะ/ครับ?',
+                                'How many persons, please?',
+                                'ฮาว เม-นี่ เพอร์-เซินส์, พลีส?',
+                                'สำหรับกี่ท่านคะ/ครับ? (เติม s ที่คำว่า persons และลงท้ายด้วย please สุภาพและถูกต้องตามหลักการ)',
+                                [
+                                    { word: 'How many', pron: 'ฮาว เม-นี่', meanTH: 'จำนวนเท่าไหร่, กี่คน', meanEN: 'Used to ask about quantity' },
+                                    { word: 'Persons', pron: 'เพอร์-เซินส์', meanTH: 'ท่าน / คน (ใช้ในงานโรงแรม)', meanEN: 'Guests or people' },
+                                    { word: 'Please', pron: 'พลีส', meanTH: 'กรุณา / ค่ะ / ครับ (เติมท้ายคำถามสั้นๆ ให้สุภาพ)', meanEN: 'Polite request marker' }
+                                ]
+                            )}
+                            ${createPhraseCard(
+                                'inq-2',
+                                'ถามวันและเวลาที่ต้องการจองแบบสั้น (Date & Time)',
+                                'Asking Date & Time (Short)',
+                                'What date and time, please?',
+                                'จองสำหรับวันไหน และเวลาใดคะ/ครับ?',
+                                'What date and time, please?',
+                                'วอท เดท แอนด์ ไทม์, พลีส?',
+                                'จองวันที่เท่าไหร่ และเวลาอะไรคะ/ครับ?',
+                                [
+                                    { word: 'Date', pron: 'เดท', meanTH: 'วันที่', meanEN: 'Calendar day' },
+                                    { word: 'Time', pron: 'ไทม์', meanTH: 'เวลา', meanEN: 'Hour of the day' }
+                                ]
+                            )}
+                            ${createPhraseCard(
+                                'inq-3',
+                                'ถามโซนที่นั่งแบบสั้นกระชับ (Seating Zone)',
+                                'Asking Seating Preference (Short)',
+                                'Indoor or window table, please?',
+                                'รับโต๊ะด้านใน หรือริมหน้าต่างดีคะ/ครับ?',
+                                'Indoor or window table, please?',
+                                'อิน-ดอร์ ออร์ วิน-โดว์ เท-เบิล, พลีส?',
+                                'รับโต๊ะด้านใน หรือโต๊ะริมหน้าต่างดีคะ/ครับ?',
+                                [
+                                    { word: 'Indoor', pron: 'อิน-ดอร์', meanTH: 'โซนด้านในห้องแอร์', meanEN: 'Inside area' },
+                                    { word: 'Window table', pron: 'วิน-โดว์ เท-เบิล', meanTH: 'โต๊ะริมหน้าต่าง', meanEN: 'Table next to the window' }
+                                ]
+                            )}
+                            ${createPhraseCard(
+                                'inq-4',
+                                'ถามเรื่องโอกาสพิเศษแบบสั้น (Special Occasion)',
+                                'Asking Special Occasion (Short)',
+                                'Any special occasion, please?',
+                                'มีฉลองโอกาสพิเศษ เช่น วันเกิดไหมคะ/ครับ?',
+                                'Any special occasion, such as a birthday?',
+                                'เอ-นี่ สเป-เชียล ออค-เค-ชัน, ซัช แอส อะ เบิร์ธ-เดย์?',
+                                'มีโอกาสพิเศษอะไรไหมคะ เช่น งานวันเกิด?',
+                                [
+                                    { word: 'Special occasion', pron: 'สเป-เชียล ออค-เค-ชัน', meanTH: 'โอกาสพิเศษ', meanEN: 'Important event or celebration' },
+                                    { word: 'Birthday', pron: 'เบิร์ธ-เดย์', meanTH: 'วันเกิด', meanEN: 'Day of birth celebration' }
+                                ]
+                            )}
+                            ${createPhraseCard(
+                                'inq-5',
+                                'ถามเรื่องแพ้อาหาร / ข้อจำกัดอาหารแบบสั้น (Food Allergies)',
+                                'Asking Food Allergies & Diet (Short)',
+                                'Any food allergies, please?',
+                                'มีแพ้อาหาร หรือเน้นอาหารพิเศษ เช่น ไม่เผ็ด เจ ฮาลาล ไหมคะ/ครับ?',
+                                'Any food allergies or dietary requests, like non-spicy or halal?',
+                                'เอ-นี่ ฟู้ด แอล-เลอร์-จีส์ ออร์ ได-เอ-ทา-รี่ รี-เควสท์ส, ไลค์ นอน-สไป-ซี่ ออร์ ฮา-ลาล?',
+                                'มีอาการแพ้อาหาร หรือต้องการอาหารพิเศษ เช่น ไม่เผ็ด หรือฮาลาลไหมคะ?',
+                                [
+                                    { word: 'Food allergies', pron: 'ฟู้ด แอล-เลอร์-จีส์', meanTH: 'อาการแพ้อาหาร', meanEN: 'Allergic reactions to food' },
+                                    { word: 'Dietary requests', pron: 'ได-เอ-ทา-รี่ รี-เควสท์ส', meanTH: 'ความต้องการด้านอาหารเฉพาะ', meanEN: 'Special diet needs' },
+                                    { word: 'Non-spicy', pron: 'นอน-สไป-ซี่', meanTH: 'ไม่เผ็ด', meanEN: 'Not hot or spicy' }
+                                ]
+                            )}
+                            ${createPhraseCard(
+                                'inq-6',
+                                'ขอชื่อและเบอร์โทร / เลขห้องพักแบบสั้น (Name & Contact)',
+                                'Asking Name & Room/Phone Number (Short)',
+                                'Your name and phone number, please?',
+                                'ขอทราบชื่อ และเบอร์โทรหรือเลขห้องพักด้วยค่ะ/ครับ',
+                                'May I have your name and phone number, please?',
+                                'เมย์ ไอ แฮฟ ยัวร์ เนม แอนด์ โฟน นัม-เบอร์, พลีส?',
+                                'ขออนุญาตทราบชื่อ และเบอร์โทรศัพท์ด้วยค่ะ/ครับ (หากเป็นแขกในโรงแรมถามต่อสั้นๆ ว่า Room number, please?)',
+                                [
+                                    { word: 'Name', pron: 'เนม', meanTH: 'ชื่อของลูกค้า', meanEN: 'Guest name' },
+                                    { word: 'Phone number', pron: 'โฟน นัม-เบอร์', meanTH: 'เบอร์โทรศัพท์', meanEN: 'Telephone number' }
+                                ]
+                            )}
+                        </div>
+                    `
+                },
+                {
+                    id: 'closing',
+                    tagTH: 'ทวนไว จบสายสุภาพ',
+                    tagEN: 'Quick Sign-Off',
+                    titleTH: 'การทวนข้อมูลและกล่าวลาวางสาย',
+                    titleEN: 'Professional Closing',
+                    descTH: 'ประโยคทวนข้อมูลการจองแบบสั้นกระชับ และการกล่าวลาก่อนวางสาย',
+                    descEN: 'Short confirmation and polite sign-off phrases.',
+                    renderContent: () => `
+                        <div class="space-y-6">
+                            ${createPhraseCard(
+                                'cls-1',
+                                'ทวนข้อมูลการจองแบบสั้นกระชับ (Quick Confirm)',
+                                'Quick Reservation Confirmation',
+                                'Confirm + Persons + Time',
+                                'ขอทวนนะคะ จอง 4 ท่าน วันนี้ เวลา 19.00 น. ค่ะ',
+                                'Let me confirm, four persons today at seven PM, please.',
+                                'เลท มี คอน-เฟิร์ม, โฟร์ เพอร์-เซินส์ ทู-เดย์ แอท เซ-เว่น พี-เอ็ม, พลีส.',
+                                'ขออนุญาตยืนยันนะคะ สำหรับ 4 ท่าน วันนี้ เวลา 19.00 น. ค่ะ',
+                                [
+                                    { word: 'Confirm', pron: 'คอน-เฟิร์ม', meanTH: 'ยืนยันข้อมูล', meanEN: 'Verify details' },
+                                    { word: 'Seven PM', pron: 'เซ-เว่น พี-เอ็ม', meanTH: 'เวลา 19.00 น. (หนึ่งทุ่ม)', meanEN: '7:00 in the evening' }
+                                ]
+                            )}
+                            ${createPhraseCard(
+                                'cls-2',
+                                'ถามความช่วยเหลือเพิ่มเติมแบบสั้น (Anything Else)',
+                                'Asking Anything Else (Short)',
+                                'Anything else, please?',
+                                'มีอะไรให้ช่วยเพิ่มเติมไหมคะ/ครับ?',
+                                'Anything else I can help you with?',
+                                'เอ-นี่-ธิง เอลส์ ไอ แคน เฮลพ์ ยู วิธ?',
+                                'มีสิ่งใดให้ดิฉัน/ผม ช่วยเหลือเพิ่มเติมอีกไหมคะ?',
+                                [
+                                    { word: 'Anything else', pron: 'เอ-นี่-ธิง เอลส์', meanTH: 'มีสิ่งอื่นเพิ่มเติมไหม', meanEN: 'Any other requests' }
+                                ]
+                            )}
+                            ${createPhraseCard(
+                                'cls-3',
+                                'กล่าวขอบคุณและวางสายแบบสั้นสุภาพ (Quick Goodbye)',
+                                'Short & Polite Goodbye',
+                                'Thank you for calling. Have a nice day.',
+                                'ขอบคุณที่โทรมาค่ะ ขอให้มีวันที่ดีนะคะ สวัสดีค่ะ',
+                                'Thank you for calling. Have a nice day.',
+                                'แธง-คิว ฟอร์ คอล-ลิ่ง. แฮฟ อะ ไนซ์ เดย์.',
+                                'ขอบคุณที่โทรมาค่ะ ขอให้เป็นวันที่ดีนะคะ',
+                                [
+                                    { word: 'Calling', pron: 'คอล-ลิ่ง', meanTH: 'การโทรติดต่อเข้ามา', meanEN: 'Making a phone call' },
+                                    { word: 'Nice day', pron: 'ไนซ์ เดย์', meanTH: 'วันที่ดี', meanEN: 'Pleasant day' }
+                                ]
+                            )}
+                        </div>
+                    `
+                },
+                {
+                    id: 'scenarios',
+                    tagTH: 'แก้ปัญหาไว ทันใจ',
+                    tagEN: 'Fast Solutions',
+                    titleTH: 'การรับมือสถานการณ์เฉพาะหน้า',
+                    titleEN: 'Common Scenarios',
+                    descTH: 'ประโยคสั้นๆ สำหรับขอถือสายรอ โอนสาย ฟังไม่ทัน หรือแจ้งโต๊ะเต็มในเวลาเร่งด่วน',
+                    descEN: 'Short, polite phrases for hold, transfer, repeat, and fully booked.',
+                    renderContent: () => `
+                        <div class="space-y-6">
+                            ${createPhraseCard(
+                                'scn-1',
+                                'ขอให้ถือสายรอสักครู่แบบสั้น (Hold the Line)',
+                                'Quick Hold Request',
+                                'Hold the line, please.',
+                                'รบกวนถือสายรอสักครู่นะคะ/ครับ',
+                                'Hold the line for a moment, please.',
+                                'โฮลด์ เดอะ ไลน์ ฟอร์ อะ โม-เมนท์, พลีส.',
+                                'กรุณาถือสายรอสักครู่นะคะ/ครับ',
+                                [
+                                    { word: 'Hold the line', pron: 'โฮลด์ เดอะ ไลน์', meanTH: 'ถือสายรอ', meanEN: 'Stay on the phone' },
+                                    { word: 'Moment', pron: 'โม-เมนท์', meanTH: 'สักครู่เดียว', meanEN: 'A short time' }
+                                ]
+                            )}
+                            ${createPhraseCard(
+                                'scn-2',
+                                'ขออนุญาตโอนสายแบบสั้น (Transferring)',
+                                'Quick Call Transfer',
+                                'I will transfer your call.',
+                                'ขออนุญาตโอนสายนะคะ/ครับ',
+                                'I will transfer your call now, please hold.',
+                                'ไอ วิล ทรานส์-เฟอร์ ยัวร์ คอล นาว, พลีส โฮลด์.',
+                                'ดิฉันจะโอนสายของท่านตอนนี้ กรุณาถือสายรอสักครู่ค่ะ',
+                                [
+                                    { word: 'Transfer', pron: 'ทรานส์-เฟอร์', meanTH: 'โอนสาย', meanEN: 'Redirect a call' }
+                                ]
+                            )}
+                            ${createPhraseCard(
+                                'scn-3',
+                                'เมื่อฟังไม่ชัด ขอให้พูดซ้ำแบบสั้น (Repeat)',
+                                'Asking to Repeat (Short)',
+                                'Could you repeat that, please?',
+                                'ขออภัยค่ะ รบกวนพูดอีกครั้งได้ไหมคะ?',
+                                'Pardon me, could you repeat that, please?',
+                                'พาร์-ดึน มี, คูด ยู รี-พีท แดท, พลีส?',
+                                'ขออภัยค่ะ รบกวนช่วยพูดซ้ำอีกครั้งได้ไหมคะ?',
+                                [
+                                    { word: 'Pardon me', pron: 'พาร์-ดึน มี', meanTH: 'ขออภัยค่ะ/ครับ (สุภาพกว่า What?)', meanEN: 'Excuse me / Sorry' },
+                                    { word: 'Repeat', pron: 'รี-พีท', meanTH: 'พูดซ้ำอีกครั้ง', meanEN: 'Say again' }
+                                ]
+                            )}
+                            ${createPhraseCard(
+                                'scn-4',
+                                'แจ้งว่าโต๊ะเต็มและเสนอเวลาใหม่แบบสั้น (Fully Booked)',
+                                'Fully Booked & New Time (Short)',
+                                'Fully booked at 7. Is 7:30 okay?',
+                                'ขออภัยค่ะ 19.00 น. โต๊ะเต็มแล้ว รับเป็น 19.30 น. แทนไหมคะ?',
+                                'Sorry, seven PM is fully booked. Is seven thirty okay for you?',
+                                'ซอร์-รี่, เซ-เว่น พี-เอ็ม อีส ฟูล-ลี่ บุ๊ค. อีส เซ-เว่น เธอร์-ตี้ โอ-เค ฟอร์ ยู?',
+                                'ขออภัยค่ะ เวลา 19.00 น. จองเต็มแล้ว ไม่ทราบว่า 19.30 น. สะดวกไหมคะ?',
+                                [
+                                    { word: 'Fully booked', pron: 'ฟูล-ลี่ บุ๊ค', meanTH: 'โต๊ะจองเต็มแล้ว', meanEN: 'No tables left' }
+                                ]
+                            )}
+                            ${createPhraseCard(
+                                'scn-5',
+                                'ขอเช็คข้อมูลแล้วโทรกลับแบบสั้น (Call Back)',
+                                'Quick Call Back Offer',
+                                'I will check and call you back.',
+                                'เดี๋ยวขอเช็คข้อมูลสักครู่ แล้วรีบโทรกลับนะคะ/ครับ',
+                                'Let me check and call you back shortly, please.',
+                                'เลท มี เช็ค แอนด์ คอล ยู แบ็ค ชอร์ท-ลี่, พลีส.',
+                                'ขออนุญาตตรวจสอบข้อมูล และจะรีบโทรกลับในอีกสักครู่นะคะ',
+                                [
+                                    { word: 'Call back', pron: 'คอล แบ็ค', meanTH: 'โทรติดต่อกลับไป', meanEN: 'Return a phone call' },
+                                    { word: 'Shortly', pron: 'ชอร์ท-ลี่', meanTH: 'ในอีกสักครู่, เร็วๆ นี้', meanEN: 'Very soon' }
+                                ]
+                            )}
+                        </div>
+                    `
+                },
+                {
+                    id: 'vocab',
+                    tagTH: 'คลังคำศัพท์บริการ',
+                    tagEN: 'Vocabulary Hub',
+                    titleTH: 'คลังคำศัพท์และสำนวนบริการ',
+                    titleEN: 'Hospitality Vocabulary',
+                    descTH: 'รวมคำพูดขอบคุณ/ขอโทษแบบสั้นแต่ดูแพง คำศัพท์โทรศัพท์ และคำศัพท์ในห้องอาหาร',
+                    descEN: 'Short elevated apologies/thanks, telephone terms, and F&B dining glossary.',
+                    renderContent: () => `
+                        <div class="space-y-6">
+                            <!-- แท็บเลือกหมวดคำศัพท์ย่อย -->
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                                <button onclick="switchVocabTab('tab-v1')" id="btn-tab-v1" class="p-4 rounded-2xl border text-left transition cursor-pointer bg-avani-900 text-white border-avani-900 shadow-xs">
+                                    <div class="text-[10px] uppercase tracking-wider text-avani-200 font-bold">Polite Phrases</div>
+                                    <div class="font-bold text-sm mt-0.5">${lang === 'TH' ? 'ขอบคุณและขอโทษระดับพรีเมียม' : 'Polite Thanks & Apologies'}</div>
+                                </button>
+                                <button onclick="switchVocabTab('tab-v2')" id="btn-tab-v2" class="p-4 rounded-2xl border text-left transition cursor-pointer bg-gray-100 text-gray-800 border-gray-200 hover:bg-avani-50">
+                                    <div class="text-[10px] uppercase tracking-wider text-avani-700 font-bold">Phone Glossary</div>
+                                    <div class="font-bold text-sm mt-0.5">${lang === 'TH' ? 'คำศัพท์การรับโทรศัพท์' : 'Telephone Terms'}</div>
+                                </button>
+                                <button onclick="switchVocabTab('tab-v3')" id="btn-tab-v3" class="p-4 rounded-2xl border text-left transition cursor-pointer bg-gray-100 text-gray-800 border-gray-200 hover:bg-avani-50">
+                                    <div class="text-[10px] uppercase tracking-wider text-avani-700 font-bold">Dining Glossary</div>
+                                    <div class="font-bold text-sm mt-0.5">${lang === 'TH' ? 'คำศัพท์บริการห้องอาหาร' : 'F&B Service Terms'}</div>
+                                </button>
+                            </div>
+
+                            <div id="tab-v1" class="vocab-tab-pane space-y-5">
+                                ${createPhraseCard(
+                                    'voc-p1',
+                                    'ตอบรับคำขอบคุณแบบสั้นและหรูหรา (แทน You are welcome)',
+                                    'Short Polite Response to Thanks',
+                                    'My pleasure, sir / madam.',
+                                    'ด้วยความยินดีอย่างยิ่งค่ะ/ครับ',
+                                    'It is our absolute pleasure.',
+                                    'อิท อีส เอา-เออร์ แอ็บ-โซ-ลูท เพล-เชอร์.',
+                                    'เป็นความยินดีอย่างยิ่งของเราค่ะ/ครับ (หรือพูดสั้นๆ ว่า My pleasure ค่ะ)',
+                                    [
+                                        { word: 'Absolute', pron: 'แอ็บ-โซ-ลูท', meanTH: 'อย่างแท้จริง, โดยสมบูรณ์', meanEN: 'Complete and total' },
+                                        { word: 'Pleasure', pron: 'เพล-เชอร์', meanTH: 'ความยินดี', meanEN: 'Happy satisfaction' }
+                                    ]
+                                )}
+                                ${createPhraseCard(
+                                    'voc-p2',
+                                    'กล่าวขอโทษอย่างสุภาพเป็นทางการ (แทน Sorry)',
+                                    'Short Formal Apology',
+                                    'My sincere apologies.',
+                                    'ต้องขออภัยเป็นอย่างสูงในความไม่สะดวกค่ะ/ครับ',
+                                    'My sincere apologies for the inconvenience.',
+                                    'มาย ซิน-เซียร์ อะ-พอล-โล-จีส์ ฟอร์ ดิ อิน-คอน-วี-เนียนซ์.',
+                                    'ขออภัยอย่างจริงใจในความไม่สะดวกค่ะ/ครับ',
+                                    [
+                                        { word: 'Sincere', pron: 'ซิน-เซียร์', meanTH: 'อย่างจริงใจ', meanEN: 'Genuine' },
+                                        { word: 'Apologies', pron: 'อะ-พอล-โล-จีส์', meanTH: 'คำขออภัย', meanEN: 'Regretful acknowledgements' },
+                                        { word: 'Inconvenience', pron: 'อิน-คอน-วี-เนียนซ์', meanTH: 'ความไม่สะดวก', meanEN: 'Trouble or difficulty' }
+                                    ]
+                                )}
+                                ${createPhraseCard(
+                                    'voc-p3',
+                                    'ขอบคุณเมื่อลูกค้าถือสายรอ (แทน Thank you for waiting)',
+                                    'Short Thanks for Waiting',
+                                    'Thank you for your patience.',
+                                    'ขอบคุณที่กรุณาถือสายรอค่ะ/ครับ',
+                                    'Thank you very much for your patience.',
+                                    'แธง-คิว เว-รี่ มัช ฟอร์ ยัวร์ เพ-เชียนซ์.',
+                                    'ขอบพระคุณอย่างยิ่งที่กรุณารอสายค่ะ/ครับ',
+                                    [
+                                        { word: 'Patience', pron: 'เพ-เชียนส์', meanTH: 'ความอดทนในการรอคอย', meanEN: 'Calmness while waiting' }
+                                    ]
+                                )}
+                                ${createPhraseCard(
+                                    'voc-p4',
+                                    'รับปากว่าจะรีบจัดการให้ทันที (Quick Assurance)',
+                                    'Quick Assurance Phrase',
+                                    'Right away, sir / madam.',
+                                    'ยินดีค่ะ เดี๋ยวจัดการให้ทันทีเลยค่ะ/ครับ',
+                                    'Certainly, I will arrange that right away.',
+                                    'เซอร์-เทิน-ลี่, ไอ วิล อะ-เรนจ์ แดท ไรท์ อะ-เวย์.',
+                                    'ได้แน่นอนค่ะ ดิฉันจะรีบจัดเตรียมให้เดี๋ยวนี้เลยค่ะ',
+                                    [
+                                        { word: 'Certainly', pron: 'เซอร์-เทิน-ลี่', meanTH: 'ได้อย่างแน่นอนค่ะ/ครับ', meanEN: 'Definitely / Of course' },
+                                        { word: 'Arrange', pron: 'อะ-เรนจ์', meanTH: 'จัดเตรียม, จัดการให้', meanEN: 'To organize or prepare' },
+                                        { word: 'Right away', pron: 'ไรท์ อะ-เวย์', meanTH: 'ในทันที, เดี๋ยวนี้เลย', meanEN: 'Immediately' }
+                                    ]
+                                )}
+                            </div>
+
+                            <div id="tab-v2" class="vocab-tab-pane hidden">
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                    ${[
+                                        { w: 'Extension number', p: 'เอ็กซ์-เทน-ชัน นัม-เบอร์', m: 'หมายเลขเบอร์ต่อภายในโรงแรม' },
+                                        { w: 'Incoming call', p: 'อิน-คัม-มิ่ง คอล', m: 'สายโทรศัพท์ที่โทรเรียกเข้ามา' },
+                                        { w: 'Outgoing call', p: 'เอาท์-โก-อิ้ง คอล', m: 'สายโทรศัพท์ที่โทรออกไปข้างนอก' },
+                                        { w: 'External call', p: 'เอ็กซ์-เทอร์-นอล คอล', m: 'สายโทรเข้าจากลูกค้าภายนอกโรงแรม' },
+                                        { w: 'Internal call', p: 'อิน-เทอร์-นอล คอล', m: 'สายโทรประสานงานภายในระหว่างแผนก' },
+                                        { w: 'Busy tone / Engaged', p: 'บิซ-ซี่ โทน / เอ็น-เกจด์', m: 'สัญญาณสายไม่ว่าง (กำลังสนทนาอยู่)' },
+                                        { w: 'Speakerphone', p: 'สปีค-เกอร์-โฟน', m: 'โหมดเปิดลำโพงสนทนา' },
+                                        { w: 'Mute button', p: 'มิวท์ บัท-ทอน', m: 'ปุ่มตัดเสียงไมโครโฟนฝั่งเราชั่วคราว' },
+                                        { w: 'Voicemail', p: 'วอยซ์-เมล', m: 'ระบบฝากข้อความเสียงอัตโนมัติ' },
+                                        { w: 'Operator', p: 'ออพ-เพอ-เร-เทอร์', m: 'พนักงานรับสายกลางของโรงแรม' }
+                                    ].map((item, idx) => `
+                                        <div id="vtel-${idx}" class="bg-gray-50 p-4 rounded-2xl border border-gray-200 flex items-center justify-between gap-3">
+                                            <div>
+                                                <div class="eng-line font-bold text-avani-900 text-sm"><span class="karaoke-word">${item.w}</span></div>
+                                                <div class="phon-line text-xs text-avani-700 font-semibold mt-0.5">คำอ่าน: <span class="karaoke-word">${item.p}</span></div>
+                                                <div class="text-xs text-gray-600 mt-1">ความหมาย: ${item.m}</div>
+                                            </div>
+                                            <button onclick="speakKaraoke('${item.w}', 'vtel-${idx}')" class="px-3.5 py-2 rounded-xl bg-avani-700 hover:bg-avani-800 text-white text-xs font-bold shrink-0 cursor-pointer">ฟังเสียง</button>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+
+                            <div id="tab-v3" class="vocab-tab-pane hidden">
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                    ${[
+                                        { w: 'All Day Dining', p: 'ออล เดย์ ได-นิ่ง', m: 'ห้องอาหารที่เปิดให้บริการตลอดทั้งวัน (เช้า-กลางวัน-เย็น)' },
+                                        { w: 'Buffet line', p: 'บุฟ-เฟ่ต์ ไลน์', m: 'ซุ้มไลน์อาหารสำหรับตักรับประทานได้ไม่จำกัด' },
+                                        { w: 'A la carte menu', p: 'อา-ลา-คาร์ท เม-นู', m: 'เมนูอาหารแบบสั่งแยกเป็นรายจาน' },
+                                        { w: 'Walk-in guest', p: 'วอล์ค-อิน เกสท์', m: 'ลูกค้าที่เดินเข้ามาใช้บริการโดยไม่ได้จองล่วงหน้า' },
+                                        { w: 'In-house guest', p: 'อิน-เฮ้าส์ เกสท์', m: 'ลูกค้าที่เข้าพักอยู่ในห้องพักของโรงแรม' },
+                                        { w: 'Beverage list', p: 'เบฟ-เวอ-เรจ ลิสท์', m: 'รายการเมนูเครื่องดื่ม' },
+                                        { w: 'Appetizer', p: 'แอพ-เพ-ไท-เซอร์', m: 'อาหารเรียกน้ำย่อย (จานแรกก่อนมื้อหลัก)' },
+                                        { w: 'Main course', p: 'เมน คอร์ส', m: 'อาหารจานหลัก' },
+                                        { w: 'Dessert', p: 'ดี-เสิร์ท', m: 'ของหวานหลังมื้ออาหาร' },
+                                        { w: 'Baby high chair', p: 'เบบี้ ไฮ แชร์', m: 'เก้าอี้ทานอาหารทรงสูงสำหรับเด็กเล็ก' },
+                                        { w: 'Private dining room', p: 'ไพร-เวท ได-นิ่ง รูม', m: 'ห้องรับประทานอาหารแบบส่วนตัว' },
+                                        { w: 'Last order', p: 'ลาสท์ ออร์-เดอร์', m: 'เวลาสิ้นสุดการรับสั่งอาหารก่อนครัวปิด' }
+                                    ].map((item, idx) => `
+                                        <div id="vfnb-${idx}" class="bg-gray-50 p-4 rounded-2xl border border-gray-200 flex items-center justify-between gap-3">
+                                            <div>
+                                                <div class="eng-line font-bold text-avani-900 text-sm"><span class="karaoke-word">${item.w}</span></div>
+                                                <div class="phon-line text-xs text-avani-700 font-semibold mt-0.5">คำอ่าน: <span class="karaoke-word">${item.p}</span></div>
+                                                <div class="text-xs text-gray-600 mt-1">ความหมาย: ${item.m}</div>
+                                            </div>
+                                            <button onclick="speakKaraoke('${item.w}', 'vfnb-${idx}')" class="px-3.5 py-2 rounded-xl bg-avani-700 hover:bg-avani-800 text-white text-xs font-bold shrink-0 cursor-pointer">ฟังเสียง</button>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        </div>
+                    `
+                },
+                {
+                    id: 'directory',
+                    tagTH: 'หมายเลขภายใน',
+                    tagEN: 'Extensions',
+                    titleTH: 'เบอร์ติดต่อภายใน',
+                    titleEN: 'Internal Extensions',
+                    descTH: 'รวบรวมเบอร์โทรภายในของแต่ละห้องอาหาร บาร์ ห้องครัว แผนกสำคัญ และวิธีโทรขึ้นห้องพัก',
+                    descEN: 'Sorted internal extension numbers for restaurants, kitchens, front desk, and guest rooms.',
+                    renderContent: () => `
+                        <div class="space-y-8">
+                            <!-- วิธีโทรขึ้นห้องพักแขก -->
+                            <div class="bg-avani-900 text-white p-6 sm:p-8 rounded-2xl flex flex-col md:flex-row items-start md:items-center justify-between gap-6 border-l-4 border-avani-400">
+                                <div class="space-y-1.5">
+                                    <span class="text-avani-200 text-xs font-bold uppercase tracking-widest">Guest Room Direct Dialing</span>
+                                    <h3 class="text-lg sm:text-xl font-bold">
+                                        ${lang === 'TH' ? 'วิธีการโทรติดต่อขึ้นไปบนห้องพักแขกโดยตรง' : 'How to Dial Guest Rooms Directly'}
+                                    </h3>
+                                    <p class="text-xs sm:text-sm text-gray-200 leading-relaxed max-w-xl">
+                                        ${lang === 'TH' 
+                                            ? 'กดหมายเลข 7 ตามด้วยหมายเลขห้องพัก ระบบจะต่อสายตรงไปยังโทรศัพท์ในห้องพักของแขกทันที' 
+                                            : 'Dial 7 followed immediately by the guest room number to connect directly.'}
+                                    </p>
+                                </div>
+                                <div class="bg-white text-avani-900 px-6 py-3.5 rounded-xl text-center shrink-0">
+                                    <div class="text-[10px] font-bold uppercase tracking-wider text-gray-500">Dial Format</div>
+                                    <div class="text-xl sm:text-2xl font-extrabold font-mono">7 + เลขห้องพัก</div>
+                                </div>
+                            </div>
+
+                            <!-- หมวดห้องอาหารและบาร์ -->
+                            <div class="space-y-3">
+                                <h3 class="font-bold text-avani-900 text-base border-l-4 border-avani-700 pl-3">
+                                    ${lang === 'TH' ? 'หมวดห้องอาหาร คาเฟ่ และบาร์ (F&B Outlets & Bars)' : 'F&B Outlets, Cafes & Bars'}
+                                </h3>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    ${[
+                                        { ext: '4507', name: 'ห้องอาหาร The Globe (เดอะโกลบ)', desc: 'ห้องอาหารหลัก All Day Dining สำหรับติดต่อเรื่องบุฟเฟ่ต์อาหารเช้า มื้อกลางวัน มื้อค่ำ และการสำรองที่นั่งทั่วไป' },
+                                        { ext: '4509', name: 'Cake And More (เค้กแอนด์มอร์)', desc: 'คาเฟ่และเบเกอรี่ล็อบบี้ สำหรับติดต่อสั่งเค้กวันเกิด ขนมอบ เครื่องดื่มชากาแฟ หรือสอบถามโปรโมชั่นเบเกอรี่' },
+                                        { ext: '4511', name: 'ห้องอาหารจีน Jufang (จูฟาง)', desc: 'ห้องอาหารจีน สำหรับติดต่อสำรองโต๊ะอาหารจีน ติ่มซำ เซ็ตเมนูโต๊ะจีน หรือการจองห้องรับรองส่วนตัว (Private Room)' },
+                                        { ext: '4516', name: 'London Inn (ลอนดอน อินน์)', desc: 'บาร์และผับสไตล์อังกฤษ สำหรับติดต่อสำรองที่นั่งช่วงค่ำ สอบถามเมนูเครื่องดื่ม และอาหารทานเล่นภายในบาร์' },
+                                        { ext: '4518', name: 'Beach Bar / Pool Bar (บีชบาร์ สระว่ายน้ำ)', desc: 'บาร์เครื่องดื่มและอาหารว่างบริเวณสระว่ายน้ำ สำหรับติดต่อสั่งอาหารและเครื่องดื่มริมสระ' }
+                                    ].map(d => `
+                                        <div class="bg-gray-50 p-4 rounded-2xl border border-gray-200 flex items-start space-x-4">
+                                            <div class="bg-avani-900 text-white font-mono font-bold text-base px-3.5 py-2 rounded-xl shrink-0">
+                                                ${d.ext}
+                                            </div>
+                                            <div>
+                                                <h4 class="font-bold text-gray-800 text-sm">${d.name}</h4>
+                                                <p class="text-xs text-gray-600 mt-1 leading-relaxed">${d.desc}</p>
+                                            </div>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+
+                            <!-- หมวดห้องครัว -->
+                            <div class="space-y-3">
+                                <h3 class="font-bold text-avani-900 text-base border-l-4 border-avani-700 pl-3">
+                                    ${lang === 'TH' ? 'หมวดห้องครัว (Kitchen Divisions)' : 'Kitchen Divisions'}
+                                </h3>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    ${[
+                                        { ext: '4513', name: 'ครัว Wok & Grill (ครัววอคแอนด์กริลล์)', desc: 'สำหรับติดต่อประสานงานรายการอาหารประเภทผัด ทอด และเมนูย่าง (Grill) ต่างๆ' },
+                                        { ext: '4606', name: 'ครัว The Globe (ครัวเดอะโกลบ)', desc: 'ครัวหลักของห้องอาหารเดอะโกลบ สำหรับตามออร์เดอร์อาหาร สอบถามวัตถุดิบ หรือแจ้งอาการแพ้อาหารของลูกค้า' },
+                                        { ext: '4608', name: 'ครัวเบเกอรี่ (Bakery Kitchen)', desc: 'สำหรับประสานงานเรื่องขนมปัง เค้ก ของหวาน การเขียนหน้าเค้กวันเกิดให้แขก และการเติมไลน์ของหวาน' },
+                                        { ext: '4609', name: 'ครัว Jufang (ครัวห้องอาหารจีนจูฟาง)', desc: 'สำหรับประสานงานรายการอาหารจีน ติ่มซำ และเช็คสถานะออร์เดอร์ของห้องอาหารจีนโดยเฉพาะ' },
+                                        { ext: '4613', name: 'ครัวเย็น (Cold Kitchen)', desc: 'สำหรับติดต่อเรื่องสลัดบาร์ อาหารเรียกน้ำย่อยแบบเย็น โคลด์คัท (Cold Cuts) และการตกแต่งจานผลไม้' }
+                                    ].map(d => `
+                                        <div class="bg-gray-50 p-4 rounded-2xl border border-gray-200 flex items-start space-x-4">
+                                            <div class="bg-avani-700 text-white font-mono font-bold text-base px-3.5 py-2 rounded-xl shrink-0">
+                                                ${d.ext}
+                                            </div>
+                                            <div>
+                                                <h4 class="font-bold text-gray-800 text-sm">${d.name}</h4>
+                                                <p class="text-xs text-gray-600 mt-1 leading-relaxed">${d.desc}</p>
+                                            </div>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+
+                            <!-- แผนกสำคัญ -->
+                            <div class="space-y-3">
+                                <h3 class="font-bold text-avani-900 text-base border-l-4 border-avani-700 pl-3">
+                                    ${lang === 'TH' ? 'แผนกประสานงานสำคัญของโรงแรม (Key Hotel Departments)' : 'Key Hotel Departments'}
+                                </h3>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    ${[
+                                        { ext: '4207', name: 'แผนก Sales & Marketing (เซลส์แอนด์มาร์เก็ตติ้ง)', desc: 'ฝ่ายขายและการตลาด สำหรับติดต่อเรื่องกรุ๊ปทัวร์ งานเลี้ยงสังสรรค์ งานประชุมสัมมนา หรือโปรโมชั่นพิเศษ' },
+                                        { ext: '4406', name: 'แผนก Reception / Front Desk (รีเซปชั่น)', desc: 'แผนกต้อนรับส่วนหน้า สำหรับตรวจสอบสถานะห้องพักของแขก เช็คสิทธิ์อาหารเช้า หรือการโอนบิลเข้าห้องพัก' }
+                                    ].map(d => `
+                                        <div class="bg-gray-50 p-4 rounded-2xl border border-gray-200 flex items-start space-x-4">
+                                            <div class="bg-gray-700 text-white font-mono font-bold text-base px-3.5 py-2 rounded-xl shrink-0">
+                                                ${d.ext}
+                                            </div>
+                                            <div>
+                                                <h4 class="font-bold text-gray-800 text-sm">${d.name}</h4>
+                                                <p class="text-xs text-gray-600 mt-1 leading-relaxed">${d.desc}</p>
+                                            </div>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        </div>
+                    `
+                }
+            ];
+        }
+
+        // เปิดดูเนื้อหาเมื่อเลือกหัวข้อจากเมนู 3 ขีด (ไม่มีตัวเลขข้างหน้า)
+        function openTopic(topicId) {
+            window.speechSynthesis?.cancel();
+            activeTopicId = topicId;
+            const topics = getTopicsData();
+            const item = topics.find(t => t.id === topicId);
+            if (!item) return;
+
+            document.getElementById('hub-view').classList.add('hidden');
+            document.getElementById('detail-view').classList.remove('hidden');
+            document.getElementById('nav-hub-btn').classList.remove('hidden');
+            document.getElementById('nav-hub-btn').classList.add('inline-flex');
+
+            const title = lang === 'TH' ? item.titleTH : item.titleEN;
+            const desc = lang === 'TH' ? item.descTH : item.descEN;
+            const tag = lang === 'TH' ? item.tagTH : item.tagEN;
+
+            document.getElementById('detail-content-box').innerHTML = `
+                <div class="bg-avani-900 text-white px-6 sm:px-10 py-8 border-b-4 border-avani-500">
+                    <div class="flex items-center space-x-2">
+                        <span class="text-xs font-semibold bg-white/15 text-avani-100 px-3 py-1 rounded-full uppercase tracking-wider">${tag}</span>
+                    </div>
+                    <h2 class="text-2xl sm:text-3xl font-bold mt-2.5">${title}</h2>
+                    <p class="text-xs sm:text-sm text-gray-200 mt-1 max-w-2xl">${desc}</p>
+                </div>
+                <div class="p-6 sm:p-10 bg-gray-50/60">
+                    ${item.renderContent()}
+                </div>
+            `;
+
+            document.getElementById('workspace-anchor').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // กลับไปหน้าแรก (โชว์โทรศัพท์สำนักงาน 2 แบบ)
+        function showHub(scrollToAnchor = true) {
+            window.speechSynthesis?.cancel();
+            activeTopicId = null;
+            document.getElementById('detail-view').classList.add('hidden');
+            document.getElementById('hub-view').classList.remove('hidden');
+            document.getElementById('nav-hub-btn').classList.add('hidden');
+            document.getElementById('nav-hub-btn').classList.remove('inline-flex');
+
+            if (scrollToAnchor) {
+                document.getElementById('workspace-anchor').scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        // สลับแท็บในหมวดคำศัพท์
+        function switchVocabTab(tabId) {
+            document.querySelectorAll('.vocab-tab-pane').forEach(el => el.classList.add('hidden'));
+            document.getElementById(tabId)?.classList.remove('hidden');
+
+            ['tab-v1', 'tab-v2', 'tab-v3'].forEach(id => {
+                const btn = document.getElementById('btn-' + id);
+                if (!btn) return;
+                if (id === tabId) {
+                    btn.className = 'p-4 rounded-2xl border text-left transition cursor-pointer bg-avani-900 text-white border-avani-900 shadow-xs';
+                } else {
+                    btn.className = 'p-4 rounded-2xl border text-left transition cursor-pointer bg-gray-100 text-gray-800 border-gray-200 hover:bg-avani-50';
+                }
+            });
+        }
+
+        // Render หน้าเว็บทั้งหมดตามภาษา
+        function renderAll() {
+            const topics = getTopicsData();
+
+            document.getElementById('nav-menu-txt').innerText = lang === 'TH' ? 'เมนูหัวข้อ' : 'Menu';
+            document.getElementById('nav-hub-txt').innerText = lang === 'TH' ? 'หน้าแรก' : 'Home';
+            document.getElementById('drawer-title').innerText = lang === 'TH' ? 'เลือกหัวข้อคู่มือ' : 'Select Topic';
+            document.getElementById('cover-btn-txt').innerText = lang === 'TH' ? 'เข้าสู่เว็บไซต์' : 'Enter Website';
+            document.getElementById('eq-title').innerText = lang === 'TH' ? 'ประเภทโทรศัพท์สำนักงาน (Office Telephone Types)' : 'Office Telephone Types';
+            document.getElementById('eq-menu-btn').innerText = lang === 'TH' ? 'เปิดเมนูเลือกหัวข้อบทเรียน' : 'Open Training Menu';
+            document.getElementById('btn-back-txt').innerText = lang === 'TH' ? 'หน้าแรก (ประเภทโทรศัพท์)' : 'Home (Phone Types)';
+            document.getElementById('btn-change-topic').innerText = lang === 'TH' ? 'เปลี่ยนหัวข้อ' : 'Switch Topic';
+
+            if (lang === 'EN') {
+                document.getElementById('cover-title').innerHTML = `TELEPHONE ANSWERING GUIDE<br><span class="text-avani-200">FOOD AND BEVERAGE</span><br>AVANI KHON KAEN HOTEL`;
+                document.getElementById('cover-sub').innerText = 'Short, fast, and polite telephone phrases for busy hotel operations with voice training.';
+            } else {
+                document.getElementById('cover-title').innerHTML = `คู่มือการรับโทรศัพท์ในแผนก<br><span class="text-avani-200">FOOD AND BEVERAGE</span><br>โรงแรมอวานีขอนแก่น`;
+                document.getElementById('cover-sub').innerText = 'เน้นประโยคสั้น กระชับ ได้ใจความรวดเร็ว สุภาพถูกต้องตามมาตรฐานโรงแรม พร้อมระบบฝึกออกเสียง';
+            }
+
+            // สร้างการ์ดโทรศัพท์ 2 แบบในหน้าแรก (เอาตัวเลขข้างหน้าชื่อออกด้วย)
+            document.getElementById('eq-cards-container').innerHTML = `
+                <div class="bg-gray-50 rounded-2xl overflow-hidden border border-gray-200 flex flex-col">
+                    <div class="h-60 bg-white p-4 border-b border-gray-200 relative flex items-center justify-center">
+                        <img src="https://images.unsplash.com/photo-1587560699334-bea93391dcef?auto=format&fit=crop&w=900&q=80" alt="Corded Phone" class="w-full h-full object-cover rounded-xl">
+                        <span class="absolute top-5 left-5 bg-gray-700 text-white text-[11px] font-bold px-3 py-1 rounded-lg shadow-xs">แบบมีสาย (Corded)</span>
+                    </div>
+                    <div class="p-6 space-y-2">
+                        <h3 class="text-base sm:text-lg font-bold text-avani-900">
+                            ${lang === 'TH' ? 'โทรศัพท์สำนักงานแบบมีสาย (Corded Office Phone)' : 'Corded Office Telephone'}
+                        </h3>
+                        <p class="text-xs sm:text-sm text-gray-600 leading-relaxed">
+                            ${lang === 'TH' 
+                                ? 'ติดตั้งประจำที่เคาน์เตอร์ต้อนรับหรือแคชเชียร์ มีหน้าจอแสดงเลขหมาย ปุ่มพักสาย (Hold) และปุ่มโอนสาย (Transfer) ชัดเจน เหมาะสำหรับจุดประจำการถาวร' 
+                                : 'Stationary desk phone at host stands and cashier counters with dedicated Hold, Transfer, and Speaker keys.'}
+                        </p>
+                    </div>
+                </div>
+
+                <div class="bg-gray-50 rounded-2xl overflow-hidden border border-gray-200 flex flex-col">
+                    <div class="h-60 bg-white p-4 border-b border-gray-200 relative flex items-center justify-center">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJYKrLRh-pzUVSqsuNd4lihzsichgFXcvb4-Az3hnUEA&s=10" alt="Cordless Office Phone" class="max-h-full max-w-full object-contain rounded-xl">
+                        <span class="absolute top-5 left-5 bg-avani-700 text-white text-[11px] font-bold px-3 py-1 rounded-lg shadow-xs">แบบไร้สาย (Cordless)</span>
+                    </div>
+                    <div class="p-6 space-y-2">
+                        <h3 class="text-base sm:text-lg font-bold text-avani-900">
+                            ${lang === 'TH' ? 'โทรศัพท์สำนักงานแบบไร้สาย (Cordless Office Phone)' : 'Cordless Office Telephone'}
+                        </h3>
+                        <p class="text-xs sm:text-sm text-gray-600 leading-relaxed">
+                            ${lang === 'TH' 
+                                ? 'เครื่องพกพาพร้อมแท่นชาร์จสัญญาณ ช่วยให้พนักงานพกพาติดตัวเพื่อรับสายลูกค้าและประสานงานได้อย่างคล่องตัวขณะเดินดูแลพื้นที่ภายในห้องอาหาร' 
+                                : 'Portable handset with charging base allowing staff to answer calls and coordinate while moving across the dining floor.'}
+                        </p>
+                    </div>
+                </div>
+            `;
+
+            // สร้างลิงก์ในเมนู 3 ขีด (เอาตัวเลขข้างหน้าหัวข้อออกทั้งหมด แสดงเฉพาะชื่อหัวข้อ)
+            document.getElementById('drawer-links').innerHTML = `
+                <button onclick="showHub(true); toggleDrawer();" class="w-full text-left px-4 py-3 rounded-xl text-xs sm:text-sm font-bold text-avani-900 bg-avani-100/70 hover:bg-avani-100 transition mb-2 cursor-pointer border border-avani-200">
+                    ${lang === 'TH' ? 'หน้าแรก: ประเภทโทรศัพท์สำนักงาน' : 'Home: Office Telephone Types'}
+                </button>
+                <div class="text-[10px] font-bold uppercase tracking-wider text-gray-400 px-3 pt-2 pb-1">
+                    ${lang === 'TH' ? 'หมวดหมู่เนื้อหาคู่มือ' : 'Training Modules'}
+                </div>
+                ${topics.map(t => `
+                    <button onclick="openTopic('${t.id}'); toggleDrawer();" class="w-full text-left px-4 py-3 rounded-xl text-xs sm:text-sm font-medium ${activeTopicId === t.id ? 'bg-avani-900 text-white font-bold' : 'text-gray-700 hover:bg-gray-100'} transition flex items-center cursor-pointer">
+                        <span>${lang === 'TH' ? t.titleTH : t.titleEN}</span>
+                    </button>
+                `).join('')}
+            `;
+
+            if (activeTopicId) {
+                openTopic(activeTopicId);
+            }
+        }
+
+        function toggleLanguage() {
+            lang = lang === 'TH' ? 'EN' : 'TH';
+            renderAll();
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.getVoices();
+            }
+            renderAll();
+        });
+    </script>
+</body>
+</html>
